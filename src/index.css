@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Assuming TailwindCSS, add these in your global CSS file or under @layer utilities if extending Tailwind */
+.bg-neon-pink {
+    background-color: #ff1493; /* Neon pink color */
+}
+.text-neon-pink {
+    color: #ff1493; /* Neon pink text */
+}
+
+/* styles.css */
+.body-bg {
+    background: #121212; /* Deep dark background */
+    color: #ffffff; /* White text for high contrast */
+}
+
+
+
+.card {
+    background: rgba(255, 255, 255, 0.1); /* Slightly transparent cards */
+    backdrop-filter: blur(10px); /* Blur effect for background filter */
+    border: 1px solid rgba(255, 20, 147, 0.6); /* Neon pink border */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+}
+
+.button-neon {
+    background-color: #FF1493;
+    color: #121212;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button-neon:hover {
+    background-color: #ff85b3;
+}
