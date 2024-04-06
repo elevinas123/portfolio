@@ -1,8 +1,24 @@
+import { useEffect } from "react";
 
 
-export const IntroSection: React.FC = () => {
+interface SectionProps {
+    point: [number, number]; // Tuple with two numbers: [gridColumnStart, gridRowStart]
+}
+
+export const IntroSection: React.FC<SectionProps> = ({ point }) => {
+    useEffect(() => {
+        console.log("point", point);
+    }, [point]);
+
+    const [gridColumnStart, gridRowStart] = point;
     return (
-        <div className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative">
+        <div
+            className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
+            style={{
+                gridColumnStart, // sets starting column based on passed coordinate
+                gridRowStart, // sets starting row based on passed coordinate
+            }}
+        >
             <div className="circle-bg absolute top-1/2 -right-10 transform -translate-x-1/2 w-96 h-96 rounded-full filter blur-xl opacity-50"></div>
             <h1 className="text-5xl font-bold mb-4 z-10">Welcome to My Portfolio</h1>
             <p className="text-xl z-10">Explore my projects and learn more about my skills.</p>
@@ -13,9 +29,16 @@ export const IntroSection: React.FC = () => {
     );
 };
 
-export const AboutSection: React.FC = () => {
+export const AboutSection: React.FC<SectionProps> = ({ point }) => {
+    const [gridColumnStart, gridRowStart] = point;
     return (
-        <div className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative">
+        <div
+            className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
+            style={{
+                gridColumnStart, // sets starting column based on passed coordinate
+                gridRowStart, // sets starting row based on passed coordinate
+            }}
+        >
             <div className="text-5xl font-bold mb-4">About Me</div>
             <p className="text-xl max-w-prose">
                 I am a passionate software developer specializing in front-end and back-end technologies.
@@ -25,9 +48,16 @@ export const AboutSection: React.FC = () => {
     );
 };
 
-export const ServicesSection: React.FC = () => {
+export const ServicesSection: React.FC<SectionProps> = ({ point }) => {
+    const [gridColumnStart, gridRowStart] = point;
     return (
-        <div className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center">
+        <div
+            className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
+            style={{
+                gridColumnStart, // sets starting column based on passed coordinate
+                gridRowStart, // sets starting row based on passed coordinate
+            }}
+        >
             <div className="text-5xl font-bold mb-4">Services</div>
             <ul className="list-disc text-xl">
                 <li>Web Development</li>
@@ -39,9 +69,16 @@ export const ServicesSection: React.FC = () => {
     );
 };
 
-export const ProjectsSection: React.FC = () => {
+export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
+    const [gridColumnStart, gridRowStart] = point;
     return (
-        <div className="body-bg flex flex-col flex-none items-center justify-center w-screen h-screen snap-center">
+        <div
+            className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
+            style={{
+                gridColumnStart, // sets starting column based on passed coordinate
+                gridRowStart, // sets starting row based on passed coordinate
+            }}
+        >
             <h2 className="neon-effect text-4xl font-bold mb-4">Featured Projects</h2>
             <div className="grid grid-cols-3 gap-4">
                 {["Project 1", "Project 2", "Project 3"].map((project) => (
@@ -54,9 +91,16 @@ export const ProjectsSection: React.FC = () => {
         </div>
     );
 };
-export const ContactSection: React.FC = () => {
+export const ContactSection: React.FC<SectionProps> = ({ point }) => {
+    const [gridColumnStart, gridRowStart] = point;
     return (
-        <div className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center">
+        <div
+            className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
+            style={{
+                gridColumnStart, // sets starting column based on passed coordinate
+                gridRowStart, // sets starting row based on passed coordinate
+            }}
+        >
             <div className="text-5xl font-bold mb-4">Contact Me</div>
             <p className="text-xl">Email: example@example.com</p>
             <p className="text-xl">Phone: +123 456 7890</p>

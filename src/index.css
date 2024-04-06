@@ -46,3 +46,11 @@
 .button-neon:hover {
     background-color: #ff85b3;
 }
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100vw, 1fr));  /* Adjusted for consistent behavior */
+    grid-template-rows: auto;
+    position: relative;
+}
