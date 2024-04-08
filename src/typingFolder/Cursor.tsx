@@ -1,16 +1,21 @@
 import { useEffect, useRef } from "react";
 
-export default function Cursor({ left, top }) {
-    const cursorRef = useRef(null);
+type CursorProps = {
+    left: number;
+    top: number;
+};
+
+export default function Cursor({ left, top }: CursorProps) {
+    const cursorRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cursorNode = cursorRef.current;
         if (cursorNode) {
             // Trigger reflow to restart the animation
             void cursorNode.offsetWidth;
-            cursorNode.classList.remove('pulse');
+            cursorNode.classList.remove("pulse");
             void cursorNode.offsetWidth; // Trigger reflow
-            cursorNode.classList.add('pulse');
+            cursorNode.classList.add("pulse");
         }
     }, [left, top]); // Dependency array includes the properties that, when changed, should restart the animation
 
@@ -21,8 +26,8 @@ export default function Cursor({ left, top }) {
             style={{
                 left: `${left}px`,
                 top: `${top}px`,
-                transform: 'translateY(-50%)',
-                transition: 'left 0.1s ease-out, top 0.1s ease-out',
+                transform: "translateY(-50%)",
+                transition: "left 0.1s ease-out, top 0.1s ease-out",
             }}
         ></div>
     );

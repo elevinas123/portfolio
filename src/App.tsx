@@ -61,8 +61,6 @@ const App: React.FC = () => {
             const SectionComponent = sectionsComponents[index % sectionsComponents.length]; // Repeat components if there are more points than components
             return <SectionComponent key={index} point={point} direction={movement.current[index]} scroll={scroll} />;
         });
-        console.log("movement", movement);
-        console.log("points1", normalizedPoints);
 
         setContent(sections);
     }, []);
@@ -72,28 +70,17 @@ const App: React.FC = () => {
         if (content.length === 0) return;
         const vh = window.innerHeight || document.documentElement.clientHeight;
         const vw = window.innerWidth || document.documentElement.clientWidth;
-        console.log("content", window.innerWidth);
-        console.log("content", document.documentElement.clientWidth);
-        console.log("content", content);
-        console.log("vh", vh);
-        console.log("vw", vw);
         container.scrollTo({
             top: (content[0].props.point[1] - 1) * vh, // Optional: Adjust to center the element in the view
             left: (content[0].props.point[0] - 1) * vw, // Optional: Adjust to center the element in the view
         });
-        console.log("container.scrollTop", container.scrollTop);
-        console.log("container.scrollLeft", container.scrollLeft);
     }, [content]);
 
     const scrollSomeWhere = (container: HTMLDivElement | null, direction: Direction, forward: boolean) => {
         if (container && !isScrollingRef.current && direction) {
             isScrollingRef.current = true; // Set scrolling flag
-            console.log("position", positionRef.current);
-            console.log("movement", movement);
 
             const scrollFunction = forward ? forwardMapping[direction] : backwardMapping[direction];
-            console.log("scrollFunction", scrollFunction);
-            console.log("directionKey", direction);
             scrollFunction(container, () => {
                 isScrollingRef.current = false; // Reset scrolling flag when done
                 // Update positionRef based on the scroll direction

@@ -1,17 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, RefObject, useEffect, useRef, useState } from "react";
 import Cursor from "./Cursor";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import SentenceLine from "./SentenceLine";
-import { currentTextAtom, textWrittenAtom } from "./atoms";
+import { textWrittenAtom } from "./atoms";
 
-export default function Text(props) {
+type TextProps = {
+    reset: boolean;
+    handleReset: () => void;
+};
+
+export default function Text(props: TextProps) {
     const [textWritten, setTextWritten] = useAtom(textWrittenAtom);
-    const [currentText, setCurrentText] = useAtom(currentTextAtom)
-    const containerRef = useRef(null);
-    const [sentences, setSentences] = useState("");
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [sentences, setSentences] = useState<ReactElement[]>([]);
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 32 });
     const [index, setIndex] = useState(0);
-    const indexRef = useRef();
+    const indexRef = useRef<number>();
     indexRef.current = index;
     const code = [
         // 1. Calculate factorial
@@ -40,7 +44,6 @@ export default function Text(props) {
 
         // 9. Find the longest word in a string
         `function findLongestWord(str) {/enter  return str.split(' ').sort((a, b) => b.length - a.length)[0];/enter}`,
-
 
         // 11. Count the vowels in a string
         `function countVowels(str) {/enter  return str.match(/[aeiou]/gi).length;/enter}`,
@@ -74,13 +77,12 @@ export default function Text(props) {
     ];
 
     const [text, setText] = useState(code[Math.floor(Math.random() * code.length)].replace(/\s/g, "/sp /sp"));
-    const textRef = useRef();
+    const textRef = useRef<string>();
     textRef.current = text;
-    useEffect(() => {
-        console.log("jo");
-    }, []);
     // Example of updating cursor position
-    const updateCursorPosition = (newLetterElement) => {
+    const updateCursorPosition = (newLetterElement: RefObject<HTMLDivElement>) => {
+        if (!containerRef.current) return;
+        if (!newLetterElement.current) return;
         const containerRect = containerRef.current.getBoundingClientRect();
         const letterRect = newLetterElement.current.getBoundingClientRect();
 
@@ -93,23 +95,20 @@ export default function Text(props) {
         setCursorPosition({ left: relativeLeft, top: relativeTop });
     };
 
-    const enterSplit = (sentence) => {
+    const enterSplit = (sentence: string) => {
         let splitSentence = sentence.split("/enter");
 
         return splitSentence;
     };
+    useEffect(() => {
+        setIndex(0);
+    }, [props.reset]);
 
     useEffect(() => {
-        setCurrentText(text);
-    }, [text]);
-    useEffect(() => {
-        setIndex(0)
-    }, [props.reset])
-
-    useEffect(() => {
-        console.log("va cia", textWritten)
-        let index = indexRef.current
-        if (textWritten === "") index = 0
+        if (!textRef.current) return;
+        if (!indexRef.current) indexRef.current = 0;
+        let index = indexRef.current;
+        if (textWritten === "") index = 0;
         if (textRef.current.split("/enter").length < 7 + index) {
             setText(
                 (text) => text + "/enter" + code[Math.floor(Math.random() * code.length)].replace(/\s/g, "/sp /sp")
@@ -117,7 +116,6 @@ export default function Text(props) {
         }
         let splitText = enterSplit(text).splice(Math.max(0, index - 1), 7);
         let splitTextWritten = enterSplit(textWritten).splice(Math.max(0, index - 1), 7);
-        console.log("splitTextWritten", splitTextWritten);
         let newItems = splitText.map((sentence, index) => (
             <SentenceLine
                 prevIndex={index + 1}
@@ -129,21 +127,14 @@ export default function Text(props) {
                 sentenceWritten={splitTextWritten[index] !== undefined ? splitTextWritten[index] : ""}
             />
         ));
-        console.log("newItems", newItems)
         setSentences(newItems);
         if (textWritten == "") {
             setCursorPosition({ left: 0, top: 32 });
         }
-        console.log("textWritten", textWritten);
-        console.log("text", splitText);
     }, [textWritten, text]);
-    useEffect(() => {
-        console.log("sentences", sentences);
-    }, [sentences]);
 
     useEffect(() => {
-        const handleKeyPress = (event) => {
-
+        const handleKeyPress = (event: KeyboardEvent) => {
             if (event.key === "Backspace") {
                 setTextWritten((textWritten) => {
                     // Check if the last 3 characters are "/br" (assuming "/br" is a marker for a space)
@@ -160,22 +151,17 @@ export default function Text(props) {
             } else if (event.key === "Enter") {
                 setIndex((i) => i + 1);
                 setTextWritten((textWritten) => textWritten + "/enter");
-                console.log("refText", textRef.current.split("/enter").length);
-                console.log("refIndex", 2 + indexRef.current);
-
                 return;
-            } 
+            }
             if (event.key === "Escape") {
-                props.handleReset()
+                props.handleReset();
             }
             if (event.key.length > 1) {
                 return;
             }
-            console.log("ten")
             setTextWritten((text) => {
                 let newText = text + event.key;
-                console.log("newText", newText)
-                return newText
+                return newText;
             });
         };
         // Add event listener when component mounts
@@ -185,14 +171,12 @@ export default function Text(props) {
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
         };
-    }, [props.timeStart]);
+    }, []);
     useEffect(() => {}, []);
 
     return (
         <div ref={containerRef} className="relative ">
-            <div className=" relative text-2xl  mt-4 flex flex-col flex-wrap  text-pretty select-none">
-                {sentences}
-            </div>
+            <div className=" relative text-2xl  mt-4 flex flex-col flex-wrap  text-pretty select-none">{sentences}</div>
             <Cursor left={cursorPosition.left} top={cursorPosition.top} />
         </div>
     );

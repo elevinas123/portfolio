@@ -1,6 +1,4 @@
-import { FaJsSquare, FaReact, FaNodeJs } from "react-icons/fa"; // Importing icons from react-icons
 import { Direction } from "./generatePath";
-import { useEffect } from "react";
 import TypingGame from "./typingFolder/TypingGame";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -11,9 +9,6 @@ interface SectionProps {
 }
 
 export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction }) => {
-    useEffect(() => {
-        console.log("direction", direction);
-    }, []);
     const [gridColumnStart, gridRowStart] = point;
     return (
         <div
@@ -31,7 +26,6 @@ export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction 
             <button
                 onClick={() => {
                     scroll(direction);
-                    console.log("hi");
                 }}
                 className="mt-5 py-2 px-4 bg-neon-pink hover:bg-pink-300 text-dark font-bold transition-colors duration-200 ease-in-out rounded shadow-lg z-10"
             >
@@ -142,8 +136,6 @@ export const GameSection: React.FC<SectionProps> = ({ point }) => {
     );
 };
 
-
-
 export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
     const [gridColumnStart, gridRowStart] = point;
 
@@ -176,6 +168,7 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
             <div className="mt-4">
                 Discover more on
                 <a
+                    target="_blank"
                     href="https://github.com/elevinas123"
                     className="text-neonpink hover:text-pink-300 cursor-pointer ml-1"
                 >
@@ -186,7 +179,6 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
         </div>
     );
 };
-
 
 const ProjectTile: React.FC<{ title: string; description: string; liveUrl: string; githubUrl: string }> = ({
     title,

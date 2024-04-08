@@ -9,7 +9,7 @@ export default function TypingGame() {
     const [reset, setReset] = useState(false);
 
     const handleReset = () => {
-        setReset(prev => !prev);
+        setReset((prev) => !prev);
         setTextWritten("");
     };
 
