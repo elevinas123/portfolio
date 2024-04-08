@@ -14,7 +14,7 @@ export default function TypingGame() {
     };
 
     return (
-        <div className="typingGame flex flex-col items-center justify-center w-full h-full text-sub-color">
+        <div className="typingGame flex flex-col items-center justify-center w-full  text-sub-color">
             <div className="text-lg  space-y-6">
                 <div className="flex flex-row items-center justify-center space-x-2">
                     <FaGlobeAmericas size="1em" />
