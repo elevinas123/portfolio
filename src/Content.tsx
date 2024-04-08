@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { Direction } from "./generatePath";
 import TypingGame from "./typingFolder/TypingGame";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FaArrowDown } from "react-icons/fa";
 
 interface SectionProps {
     point: [number, number]; // Tuple with two numbers: [gridColumnStart, gridRowStart]
@@ -9,20 +11,17 @@ interface SectionProps {
 }
 
 export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction }) => {
+    useEffect(() => {
+        console.log("direction", direction);
+    }, [direction]);
     const [gridColumnStart, gridRowStart] = point;
     return (
         <div
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <div className="circle-bg absolute top-1/2 -right-10 transform -translate-x-1/2 w-96 h-96 rounded-full filter blur-xl opacity-50"></div>
-            <img
-                src="/vecteezy_modern-flat-city-building-silhouette-illustration_7920869 (1).svg"
-                className="absolute bottom-0 right-35 w-1/2 h-96  hue-rotate-90 opacity-65"
-                alt="Floral Right Border"
-            />
-            <h1 className="text-5xl font-bold mb-4 z-10 ">Welcome to My Portfolio</h1>
-            <p className="text-xl z-10">Explore my projects and learn more about my skills.</p>
+            <h1 className="text-5xl font-bold mb-4 z-10 text-center px-2 ">Welcome to My Portfolio</h1>
+            <p className="text-xl z-10 text-center px-4">Explore my projects and learn more about my skills.</p>
             <button
                 onClick={() => {
                     scroll(direction);
@@ -31,6 +30,11 @@ export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction 
             >
                 About me
             </button>
+                <img
+                    src="/vecteezy_modern-flat-city-building-silhouette-illustration_7920869 (1).svg"
+                    className="absolute bottom-0 w-full md:w-1/2 md:h-96 hue-rotate-90 opacity-65"
+                    alt="Floral Right Border"
+                />
         </div>
     );
 };
@@ -43,31 +47,36 @@ export const AboutSection: React.FC<SectionProps> = ({ point }) => {
             className="flex flex-col items-center justify-center bg-dark text-white snap-center relative w-screen h-screen overflow-hidden"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <div className="flex flex-col items-center justify-center w-full h-full p-10">
-                <div className="relative mb-10 group">
-                    <img
-                        rel="preload"
-                        decoding="async"
-                        src="/ElvinasImage.webp"
-                        className="w-40 h-40 md:w-60 md:h-60 rounded-full border-4 border-gray-700 shadow-xl transition-all duration-300 ease-in-out group-hover:opacity-30"
-                        alt="Profile"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
-                        <span className="text-xl md:text-2xl font-semibold">Elvinas Monstvilas</span>
+            <div className="flex flex-col items-center justify-between  w-full h-full px-10">
+                <div className="flex flex-col  justify-center items-center h-90vh">
+                    <div className="relative mb-10 group">
+                        <img
+                            rel="preload"
+                            decoding="async"
+                            src="/ElvinasImage.webp"
+                            className="w-40 h-40 md:w-60 md:h-60 rounded-full border-4 border-gray-700 shadow-xl transition-all duration-300 ease-in-out group-hover:opacity-30"
+                            alt="Profile"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
+                            <span className="text-xl md:text-2xl font-semibold">Elvinas Monstvilas</span>
+                        </div>
                     </div>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
+                    <p className="text-md  text-center max-w-prose mx-auto mb-6 md:text-xl">
+                        I am Elvinas Monstvilas, a dedicated student with a deep passion for coding and a commitment to
+                        lifelong learning. My academic journey at Vilnius Lyceum is intertwined with exploring
+                        innovative solutions and advancing my technical skills.
+                    </p>
+                    <p className="text-md md:text-xl text-center max-w-prose mx-auto">
+                        Driven by curiosity, I immerse myself in technology to not only build my capabilities but also
+                        to contribute meaningfully to the broader tech community.
+                    </p>
                 </div>
-                <h1 className="text-5xl font-bold mb-4">About Me</h1>
-                <p className="text-lg md:text-xl text-center max-w-prose mx-auto mb-6">
-                    I am Elvinas Monstvilas, a dedicated student with a deep passion for coding and a commitment to
-                    lifelong learning. My academic journey at Vilnius Lyceum is intertwined with exploring innovative
-                    solutions and advancing my technical skills.
-                </p>
-                <p className="text-lg md:text-xl text-center max-w-prose mx-auto">
-                    Driven by curiosity, I immerse myself in technology to not only build my capabilities but also to
-                    contribute meaningfully to the broader tech community.
-                </p>
-                <div className="absolute bottom-10 left-10 text-gray-400 text-sm md:text-lg opacity-50 transition-opacity duration-500 hover:opacity-100">
-                    Scroll to navigate
+                <div className=" text-neonpink text-sm md:text-lg opacity-50 transition-opacity duration-500 hover:opacity-100 animate-scroll my-4 ">
+                    <div>Scroll to navigate</div>
+                    <div className="justify-center items-center flex flex-row">
+                        <FaArrowDown />
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,8 +153,8 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
             className="w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <h2 className="text-4xl font-bold mb-5">Projects Portfolio</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10">
+            <h2 className="md:text-4xl text-2xl  font-bold mb-5">Projects Portfolio</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10 ">
                 <ProjectTile
                     title="BetterType Game"
                     description="Refine your coding skills with a typing tester designed to improve speed and accuracy."
@@ -189,13 +198,13 @@ const ProjectTile: React.FC<{ title: string; description: string; liveUrl: strin
     return (
         <div className="relative overflow-hidden bg-dark-light rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
             <div className="p-5 border border-neonpink">
-                <h3 className="text-2xl font-semibold mb-2 text-neonpink">{title}</h3>
-                <p className="text-sm mb-4 h-10">{description}</p>
+                <h3 className="md:text-2xl text-lg font-semibold mb-2 text-neonpink">{title}</h3>
+                <p className="text-sm mb-4 h-12   hidden md:block">{description}</p>
                 <a
                     href={liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-neonpink hover:text-pink-300 transition-colors duration-300 ease-in-out"
+                    className="text-neonpink text-xs md:text-md hover:text-pink-300 transition-colors duration-300 ease-in-out"
                 >
                     Visit Site
                 </a>
@@ -203,7 +212,7 @@ const ProjectTile: React.FC<{ title: string; description: string; liveUrl: strin
                     href={githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block mt-2 text-neonpink hover:text-pink-300 transition-colors duration-300 ease-in-out"
+                    className="block mt-2 text-neonpink text-xs md:text-md hover:text-pink-300 transition-colors duration-300 ease-in-out"
                 >
                     View on GitHub
                 </a>
@@ -220,7 +229,7 @@ export const ContactSection: React.FC<SectionProps> = ({ point }) => {
             style={{ gridColumnStart, gridRowStart }}
         >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Me</h1>
-            <p className="text-lg md:text-xl max-w-prose text-center mb-5">
+            <p className="text-lg md:text-xl max-w-prose text-center mb-5 px-2 md:px-0">
                 Have questions or want to work together? Feel free to reach out!
             </p>
             <div className="mb-5">

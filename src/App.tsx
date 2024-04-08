@@ -8,6 +8,7 @@ type Direction = "right" | "down" | "left" | "up";
 const App: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const positionRef = useRef<number>(0);
+    const touchStartYRef = useRef(0);
     const isScrollingRef = useRef<boolean>(false); // Ref to track if scrolling is in progress
     const movement = useRef<Direction[]>([]);
     const [content, setContent] = useState<any>([]);
@@ -48,11 +49,22 @@ const App: React.FC = () => {
     };
 
     useEffect(() => {
+        const isMobile = window.innerWidth < 768;
+        let sectionsComponents = [
+            IntroSection,
+            AboutSection,
+            ServicesSection,
+            GameSection,
+            ProjectsSection,
+            ContactSection,
+        ];
+
+        if (isMobile)
+            sectionsComponents = [IntroSection, AboutSection, ServicesSection, ProjectsSection, ContactSection];
         // Define the array of section components you might render
-        const sectionsComponents = [IntroSection, AboutSection, ServicesSection, GameSection, ProjectsSection, ContactSection];
 
         // Generate path data
-        const { points, path } = generatePath(5); // Assuming generatePath returns only points and path now
+        const { points, path } = generatePath(sectionsComponents.length - 1); // Assuming generatePath returns only points and path now
         const normalizedPoints = normalizePoints(points); // Assuming these are correct dimensions
 
         movement.current = path;
@@ -86,7 +98,7 @@ const App: React.FC = () => {
                     ? Math.min(positionRef.current + 1, movement.current.length - 1)
                     : Math.max(positionRef.current - 1, 0);
                 isScrollingRef.current = false; // Reset scrolling flag when done
-            console.log("positionRef", positionRef.current);
+                console.log("positionRef", positionRef.current);
 
                 // Update positionRef based on the scroll direction
             });
@@ -110,6 +122,37 @@ const App: React.FC = () => {
             scrollContainer?.removeEventListener("wheel", handleWheel);
         };
     }, []);
+
+    const handleTouchStart = (event: TouchEvent) => {
+        touchStartYRef.current = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+        event.preventDefault(); // Prevent scrolling the screen
+        const touchEndY = event.touches[0].clientY;
+        const touchStartY = touchStartYRef.current;
+        const directionKey = movement.current[positionRef.current % movement.current.length];
+
+        if (touchEndY < touchStartY) {
+            // Swiping up
+            scrollSomeWhere(containerRef.current, directionKey, true);
+        } else if (touchEndY > touchStartY) {
+            // Swiping down
+            scrollSomeWhere(containerRef.current, directionKey, false);
+
+        }
+    };
+
+    useEffect(() => {
+        const container = containerRef.current;
+        container?.addEventListener("touchstart", handleTouchStart, { passive: false });
+        container?.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+        return () => {
+            container?.removeEventListener("touchstart", handleTouchStart);
+            container?.removeEventListener("touchmove", handleTouchMove);
+        };
+    }, []); // Empty dependency array ensures this only runs on mount and unmount
 
     return (
         <div ref={containerRef} className=" grid-container overflow-hidden w-screen h-screen">
