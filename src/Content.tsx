@@ -119,19 +119,43 @@ export const ServicesSection: React.FC<SectionProps> = ({ point, scroll, directi
     );
 };
 
+export const GameSection: React.FC<SectionProps> = ({ point }) => {
+    const [gridColumnStart, gridRowStart] = point;
+
+    return (
+        <div
+            className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative overflow-hidden"
+            style={{ gridColumnStart, gridRowStart }}
+        >
+            <TypingGame />
+            <p className="text-xl mt-4 max-w-2xl text-center">
+                Sharpen your typing skills with "BetterType," a dynamic challenge to test your speed and accuracy.
+                <a
+                    href="https://better-typer-vite.vercel.app/"
+                    target="_blank"
+                    className="ml-1 text-neonpink hover:text-pink-300"
+                >
+                    Explore the full version.
+                </a>
+            </p>
+        </div>
+    );
+};
+
+
 
 export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
     const [gridColumnStart, gridRowStart] = point;
 
     return (
         <div
-            className="w-screen h-screen flex flex-col items-center justify-center  bg-dark text-white snap-center relative"
+            className="w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
             <h2 className="text-4xl font-bold mb-5">Projects Portfolio</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10">
                 <ProjectTile
-                    title="Better Typer"
+                    title="BetterType Game"
                     description="Refine your coding skills with a typing tester designed to improve speed and accuracy."
                     liveUrl="https://better-typer-vite.vercel.app"
                     githubUrl="https://github.com/elevinas123/better-typer-vite"
@@ -153,8 +177,7 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
                 Discover more on
                 <a
                     href="https://github.com/elevinas123"
-                    target="_blank"
-                    className="text-neonpink hover:text-pink-300 cursor-pointer ml-1 transition-colors duration-300 ease-in-out"
+                    className="text-neonpink hover:text-pink-300 cursor-pointer ml-1"
                 >
                     GitHub
                 </a>
@@ -163,6 +186,7 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
         </div>
     );
 };
+
 
 const ProjectTile: React.FC<{ title: string; description: string; liveUrl: string; githubUrl: string }> = ({
     title,
@@ -173,7 +197,7 @@ const ProjectTile: React.FC<{ title: string; description: string; liveUrl: strin
     return (
         <div className="relative overflow-hidden bg-dark-light rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
             <div className="p-5 border border-neonpink">
-                <h3 className="text-2xl font-semibold mb-2 text-neonpink ">{title}</h3>
+                <h3 className="text-2xl font-semibold mb-2 text-neonpink">{title}</h3>
                 <p className="text-sm mb-4 h-10">{description}</p>
                 <a
                     href={liveUrl}
@@ -213,6 +237,14 @@ export const ContactSection: React.FC<SectionProps> = ({ point }) => {
                     className="text-base md:text-lg text-pink-500 hover:text-pink-300 transition-colors"
                 >
                     elvinas.monstvilas@gmail.com
+                </a>
+            </div>
+            <div className="mb-5">
+                <a
+                    href="tel:+37068249159"
+                    className="text-base md:text-lg text-pink-500 hover:text-pink-300 transition-colors"
+                >
+                    +370 682 49159
                 </a>
             </div>
             <div className="flex space-x-3">

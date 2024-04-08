@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { scrollDown, scrollLeft, scrollRight, scrollUp } from "./scrollFunctions";
-import { AboutSection, ContactSection, IntroSection, ProjectsSection, ServicesSection } from "./Content";
+import { AboutSection, ContactSection, GameSection, IntroSection, ProjectsSection, ServicesSection } from "./Content";
 import { generatePath } from "./generatePath";
 
 type Direction = "right" | "down" | "left" | "up";
@@ -49,10 +49,10 @@ const App: React.FC = () => {
 
     useEffect(() => {
         // Define the array of section components you might render
-        const sectionsComponents = [IntroSection, AboutSection, ServicesSection, ProjectsSection, ContactSection];
+        const sectionsComponents = [IntroSection, AboutSection, ServicesSection, GameSection, ProjectsSection, ContactSection];
 
         // Generate path data
-        const { points, path } = generatePath(4); // Assuming generatePath returns only points and path now
+        const { points, path } = generatePath(5); // Assuming generatePath returns only points and path now
         const normalizedPoints = normalizePoints(points); // Assuming these are correct dimensions
 
         movement.current = path;
