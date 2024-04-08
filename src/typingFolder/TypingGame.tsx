@@ -5,7 +5,7 @@ import { textWrittenAtom } from "./atoms";
 import Text from "./Text";
 
 export default function TypingGame() {
-    const [textWritten, setTextWritten] = useAtom(textWrittenAtom);
+    const [, setTextWritten] = useAtom(textWrittenAtom);
     const [reset, setReset] = useState(false);
 
     const handleReset = () => {
