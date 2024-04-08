@@ -82,11 +82,13 @@ const App: React.FC = () => {
 
             const scrollFunction = forward ? forwardMapping[direction] : backwardMapping[direction];
             scrollFunction(container, () => {
-                isScrollingRef.current = false; // Reset scrolling flag when done
-                // Update positionRef based on the scroll direction
                 positionRef.current = forward
                     ? Math.min(positionRef.current + 1, movement.current.length - 1)
                     : Math.max(positionRef.current - 1, 0);
+                isScrollingRef.current = false; // Reset scrolling flag when done
+            console.log("positionRef", positionRef.current);
+
+                // Update positionRef based on the scroll direction
             });
         }
     };
@@ -98,6 +100,7 @@ const App: React.FC = () => {
             event.preventDefault(); // Prevent the default scroll behavior
             const isScrollingDown = event.deltaY > 0;
             const directionKey = movement.current[positionRef.current % movement.current.length];
+            console.log("lastRef", positionRef.current);
             scrollSomeWhere(scrollContainer, directionKey, isScrollingDown);
         };
 

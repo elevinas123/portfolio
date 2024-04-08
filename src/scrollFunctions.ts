@@ -17,7 +17,7 @@ const smoothScrollTo = (container: HTMLDivElement, targetX: number, targetY: num
         container.scrollLeft = startX + distanceX * easeInOutQuad(progress);
         container.scrollTop = startY + distanceY * easeInOutQuad(progress);
 
-        if (timeElapsed < duration) {
+        if (timeElapsed < duration + 10) {
             requestAnimationFrame(animateScroll);
         } else {
             if (callback) callback(); // Execute callback function once scrolling is complete
