@@ -1,4 +1,4 @@
 # Portfolio
 
 
-My portfolio with custom, extendible and procedural scrolling.
+My portfolio with custom, extensible and procedural scrolling.
