@@ -101,3 +101,17 @@
     transition: opacity 500ms ease-in;
 }
 
+
+/* Target the group container and apply hover effects to child icons */
+.group:hover .icon {
+    opacity: 1;  /* Fully show the icon */
+    transform: translate(var(--tx), var(--ty)); /* Move to the calculated position */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+/* Initial state of the icons with their transitions */
+.icon {
+    opacity: 0; /* Initially hidden */
+    transform: translate(0, 0); /* Start at no movement */
+    transition: transform 0.3s ease-in, opacity 0.3s ease-out;
+}
