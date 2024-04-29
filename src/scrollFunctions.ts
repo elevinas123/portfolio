@@ -45,3 +45,7 @@ export const scrollLeft = (container: HTMLDivElement, callback: () => void): voi
     const targetX = container.scrollLeft - window.innerWidth;
     smoothScrollTo(container, targetX, container.scrollTop, callback);
 };
+
+export const scrollAnywhere = () => {
+    
+}
