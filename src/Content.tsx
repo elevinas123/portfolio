@@ -3,6 +3,7 @@ import { Direction } from "./generatePath";
 import TypingGame from "./typingFolder/TypingGame";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FaArrowDown } from "react-icons/fa";
+import TopNav from "./TopNav";
 
 interface SectionProps {
     point: [number, number]; // Tuple with two numbers: [gridColumnStart, gridRowStart]
@@ -20,6 +21,7 @@ export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction 
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
+            <TopNav />
             <h1 className="text-5xl font-bold mb-4 z-10 text-center px-2 ">Welcome to My Portfolio</h1>
             <p className="text-xl z-10 text-center px-4">Explore my projects and learn more about my skills.</p>
             <button
@@ -30,11 +32,11 @@ export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction 
             >
                 About me
             </button>
-                <img
-                    src="/vecteezy_modern-flat-city-building-silhouette-illustration_7920869 (1).svg"
-                    className="absolute bottom-0 w-full md:w-1/2 md:h-96 hue-rotate-90 opacity-65"
-                    alt="Floral Right Border"
-                />
+            <img
+                src="/vecteezy_modern-flat-city-building-silhouette-illustration_7920869 (1).svg"
+                className="absolute bottom-0 w-full md:w-1/2 md:h-96 hue-rotate-90 opacity-65"
+                alt="Floral Right Border"
+            />
         </div>
     );
 };
@@ -47,6 +49,7 @@ export const AboutSection: React.FC<SectionProps> = ({ point }) => {
             className="flex flex-col items-center justify-center bg-dark text-white snap-center relative w-screen h-screen overflow-hidden"
             style={{ gridColumnStart, gridRowStart }}
         >
+            <TopNav />
             <div className="flex flex-col items-center justify-between  w-full h-full px-10">
                 <div className="flex flex-col  justify-center items-center h-90vh">
                     <div className="relative mb-10 group">
@@ -90,6 +93,7 @@ export const ServicesSection: React.FC<SectionProps> = ({ point, scroll, directi
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
+            <TopNav />
             <h2 className="text-4xl font-bold mb-10">Services</h2>
             <div className="flex flex-wrap justify-center gap-10">
                 <div className="text-center max-w-xs">
@@ -130,6 +134,7 @@ export const GameSection: React.FC<SectionProps> = ({ point }) => {
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative overflow-hidden"
             style={{ gridColumnStart, gridRowStart }}
         >
+            <TopNav />
             <TypingGame />
             <p className="text-xl mt-4 max-w-2xl text-center">
                 Sharpen your typing skills with "BetterType," a dynamic challenge to test your speed and accuracy.
@@ -153,6 +158,7 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
             className="w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
+            <TopNav />
             <h2 className="md:text-4xl text-2xl  font-bold mb-5">Projects Portfolio</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10 ">
                 <ProjectTile

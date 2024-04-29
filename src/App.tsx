@@ -91,7 +91,6 @@ const App: React.FC = () => {
     const scrollSomeWhere = (container: HTMLDivElement | null, direction: Direction, forward: boolean) => {
         if (container && !isScrollingRef.current && direction) {
             isScrollingRef.current = true; // Set scrolling flag
-
             const scrollFunction = forward ? forwardMapping[direction] : backwardMapping[direction];
             scrollFunction(container, () => {
                 positionRef.current = forward
@@ -155,7 +154,8 @@ const App: React.FC = () => {
     }, []); // Empty dependency array ensures this only runs on mount and unmount
 
     return (
-        <div ref={containerRef} className=" grid-container overflow-hidden w-screen h-screen">
+        <div ref={containerRef} className=" relative bg-dark grid-container overflow-hidden w-screen h-screen">
+            <div className="stiky top-0">Testas</div>
             {content}
         </div>
     );

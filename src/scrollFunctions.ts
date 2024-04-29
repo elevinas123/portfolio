@@ -4,7 +4,7 @@ const smoothScrollTo = (container: HTMLDivElement, targetX: number, targetY: num
     const startY = container.scrollTop;
     const distanceX = targetX - startX;
     const distanceY = targetY - startY;
-    const duration = 500; // Duration in milliseconds
+    const duration = 300; // Duration in milliseconds
     let startTime: number | null = null;
 
     const animateScroll = (currentTime: number) => {
