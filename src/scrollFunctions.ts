@@ -1,10 +1,12 @@
+import { Direction } from "./generatePath";
+
 // Utility function to perform smooth scroll animations with TypeScript typing
 const smoothScrollTo = (container: HTMLDivElement, targetX: number, targetY: number, callback: () => void): void => {
     const startX = container.scrollLeft;
     const startY = container.scrollTop;
     const distanceX = targetX - startX;
     const distanceY = targetY - startY;
-    const duration = 300; // Duration in milliseconds
+    const duration = 10; // Duration in milliseconds
     let startTime: number | null = null;
 
     const animateScroll = (currentTime: number) => {
@@ -46,6 +48,29 @@ export const scrollLeft = (container: HTMLDivElement, callback: () => void): voi
     smoothScrollTo(container, targetX, container.scrollTop, callback);
 };
 
-export const scrollAnywhere = () => {
-    
-}
+export const scrollToSpecific = (
+    container: HTMLDivElement,
+    currentPos: number,
+    newPos: number,
+    directions: Direction[],
+    callback: () => void
+): void => {
+    let currentX = container.scrollLeft;
+    let currentY = container.scrollTop;
+    for (let i = currentPos+1; i < newPos; i++) {
+        switch (directions[i]) {
+            case "up":
+                currentY -= window.innerHeight;
+                break;
+            case "right":
+                currentX += window.innerWidth;
+                break;
+            case "down":
+                currentY += window.innerHeight;
+                break;
+            case "left":
+                currentX -= window.innerWidth;
+        }
+    }
+    smoothScrollTo(container, currentX, currentY, callback);
+};

@@ -1,17 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { scrollDown, scrollLeft, scrollRight, scrollUp } from "./scrollFunctions";
 import { AboutSection, ContactSection, GameSection, IntroSection, ProjectsSection, ServicesSection } from "./Content";
-import { generatePath } from "./generatePath";
-
-type Direction = "right" | "down" | "left" | "up";
+import { Direction, generatePath } from "./generatePath";
+import { useAtom } from "jotai";
+import { posAtom } from "./atoms";
 
 const App: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const positionRef = useRef<number>(0);
+    const [currentPos, setCurrentPos] = useAtom(posAtom);
+    const positionRef = useRef<number>(currentPos);
     const touchStartYRef = useRef(0);
     const isScrollingRef = useRef<boolean>(false); // Ref to track if scrolling is in progress
     const movement = useRef<Direction[]>([]);
     const [content, setContent] = useState<any>([]);
+
+    useEffect(() => {
+        positionRef.current = currentPos
+    }, [currentPos])
     const forwardMapping = {
         right: scrollRight,
         left: scrollLeft,
@@ -60,7 +65,7 @@ const App: React.FC = () => {
         ];
 
         if (isMobile)
-            sectionsComponents = [IntroSection, AboutSection, ServicesSection, ProjectsSection, ContactSection];
+            sectionsComponents = [IntroSection, AboutSection, ServicesSection, ProjectsSection, ContactSection, ContactSection];
         // Define the array of section components you might render
 
         // Generate path data
@@ -71,7 +76,17 @@ const App: React.FC = () => {
         // Create section elements with corresponding grid positions
         const sections = normalizedPoints.map((point, index) => {
             const SectionComponent = sectionsComponents[index % sectionsComponents.length]; // Repeat components if there are more points than components
-            return <SectionComponent key={index} point={point} direction={movement.current[index]} scroll={scroll} />;
+            return (
+                <SectionComponent
+                    position={positionRef.current}
+                    movementDirections={movement.current}
+                    container={containerRef.current}
+                    key={index}
+                    point={point}
+                    direction={movement.current[index]}
+                    scroll={scroll}
+                />
+            );
         });
 
         setContent(sections);
@@ -90,12 +105,16 @@ const App: React.FC = () => {
 
     const scrollSomeWhere = (container: HTMLDivElement | null, direction: Direction, forward: boolean) => {
         if (container && !isScrollingRef.current && direction) {
+            console.log("posRef", positionRef.current)
+            if (positionRef.current === 0 && !forward) return
+            if (positionRef.current === movement.current.length && forward) return;
             isScrollingRef.current = true; // Set scrolling flag
             const scrollFunction = forward ? forwardMapping[direction] : backwardMapping[direction];
             scrollFunction(container, () => {
-                positionRef.current = forward
-                    ? Math.min(positionRef.current + 1, movement.current.length - 1)
-                    : Math.max(positionRef.current - 1, 0);
+                setCurrentPos((lastPos) => {
+                    console.log("lastPos", lastPos)
+                    return forward ? Math.min(lastPos + 1, movement.current.length - 1) : Math.max(lastPos - 1, 0);
+                });
                 isScrollingRef.current = false; // Reset scrolling flag when done
                 console.log("positionRef", positionRef.current);
 
@@ -110,7 +129,8 @@ const App: React.FC = () => {
         const handleWheel = (event: WheelEvent) => {
             event.preventDefault(); // Prevent the default scroll behavior
             const isScrollingDown = event.deltaY > 0;
-            const directionKey = movement.current[positionRef.current % movement.current.length];
+            let index = positionRef.current
+            const directionKey = movement.current[index % movement.current.length];
             console.log("lastRef", positionRef.current);
             scrollSomeWhere(scrollContainer, directionKey, isScrollingDown);
         };
@@ -138,7 +158,6 @@ const App: React.FC = () => {
         } else if (touchEndY > touchStartY) {
             // Swiping down
             scrollSomeWhere(containerRef.current, directionKey, false);
-
         }
     };
 

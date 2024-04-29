@@ -9,9 +9,19 @@ interface SectionProps {
     point: [number, number]; // Tuple with two numbers: [gridColumnStart, gridRowStart]
     scroll: any;
     direction: Direction;
+    container: HTMLDivElement | null;
+    movementDirections: Direction[] | null;
+    position: number | null;
 }
 
-export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction }) => {
+export const IntroSection: React.FC<SectionProps> = ({
+    point,
+    scroll,
+    direction,
+    movementDirections,
+    container,
+    position,
+}) => {
     useEffect(() => {
         console.log("direction", direction);
     }, [direction]);
@@ -21,7 +31,7 @@ export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction 
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <TopNav />
+            <TopNav movementDirections={movementDirections} container={container} position={position} />
             <h1 className="text-5xl font-bold mb-4 z-10 text-center px-2 ">Welcome to My Portfolio</h1>
             <p className="text-xl z-10 text-center px-4">Explore my projects and learn more about my skills.</p>
             <button
@@ -41,7 +51,7 @@ export const IntroSection: React.FC<SectionProps> = ({ point, scroll, direction 
     );
 };
 
-export const AboutSection: React.FC<SectionProps> = ({ point }) => {
+export const AboutSection: React.FC<SectionProps> = ({ point, movementDirections, container, position }) => {
     const [gridColumnStart, gridRowStart] = point;
 
     return (
@@ -49,7 +59,7 @@ export const AboutSection: React.FC<SectionProps> = ({ point }) => {
             className="flex flex-col items-center justify-center bg-dark text-white snap-center relative w-screen h-screen overflow-hidden"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <TopNav />
+            <TopNav movementDirections={movementDirections} container={container} position={position} />
             <div className="flex flex-col items-center justify-between  w-full h-full px-10">
                 <div className="flex flex-col  justify-center items-center h-90vh">
                     <div className="relative mb-10 group">
@@ -86,14 +96,22 @@ export const AboutSection: React.FC<SectionProps> = ({ point }) => {
     );
 };
 
-export const ServicesSection: React.FC<SectionProps> = ({ point, scroll, direction }) => {
+export const ServicesSection: React.FC<SectionProps> = ({
+    point,
+    scroll,
+    direction,
+    movementDirections,
+    container,
+    position,
+}) => {
     const [gridColumnStart, gridRowStart] = point;
     return (
         <div
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <TopNav />
+            <TopNav movementDirections={movementDirections} container={container} position={position} />
+
             <h2 className="text-4xl font-bold mb-10">Services</h2>
             <div className="flex flex-wrap justify-center gap-10">
                 <div className="text-center max-w-xs">
@@ -126,7 +144,7 @@ export const ServicesSection: React.FC<SectionProps> = ({ point, scroll, directi
     );
 };
 
-export const GameSection: React.FC<SectionProps> = ({ point }) => {
+export const GameSection: React.FC<SectionProps> = ({ point, movementDirections, container, position }) => {
     const [gridColumnStart, gridRowStart] = point;
 
     return (
@@ -134,7 +152,8 @@ export const GameSection: React.FC<SectionProps> = ({ point }) => {
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative overflow-hidden"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <TopNav />
+            <TopNav movementDirections={movementDirections} container={container} position={position} />
+
             <TypingGame />
             <p className="text-xl mt-4 max-w-2xl text-center">
                 Sharpen your typing skills with "BetterType," a dynamic challenge to test your speed and accuracy.
@@ -150,7 +169,7 @@ export const GameSection: React.FC<SectionProps> = ({ point }) => {
     );
 };
 
-export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
+export const ProjectsSection: React.FC<SectionProps> = ({ point, movementDirections, container, position }) => {
     const [gridColumnStart, gridRowStart] = point;
 
     return (
@@ -158,7 +177,8 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
             className="w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative"
             style={{ gridColumnStart, gridRowStart }}
         >
-            <TopNav />
+            <TopNav movementDirections={movementDirections} container={container} position={position} />
+
             <h2 className="md:text-4xl text-2xl  font-bold mb-5">Projects Portfolio</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10 ">
                 <ProjectTile
@@ -195,12 +215,12 @@ export const ProjectsSection: React.FC<SectionProps> = ({ point }) => {
     );
 };
 
-const ProjectTile: React.FC<{ title: string; description: string; liveUrl: string; githubUrl: string }> = ({
-    title,
-    description,
-    liveUrl,
-    githubUrl,
-}) => {
+const ProjectTile: React.FC<{
+    title: string;
+    description: string;
+    liveUrl: string;
+    githubUrl: string;
+}> = ({ title, description, liveUrl, githubUrl }) => {
     return (
         <div className="relative overflow-hidden bg-dark-light rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
             <div className="p-5 border border-neonpink">
@@ -227,13 +247,14 @@ const ProjectTile: React.FC<{ title: string; description: string; liveUrl: strin
     );
 };
 
-export const ContactSection: React.FC<SectionProps> = ({ point }) => {
+export const ContactSection: React.FC<SectionProps> = ({ point, movementDirections, container, position }) => {
     const [gridColumnStart, gridRowStart] = point;
     return (
         <div
             className="flex-none w-screen h-screen flex flex-col items-center justify-center bg-dark text-white snap-center relative overflow-hidden"
             style={{ gridColumnStart, gridRowStart }}
         >
+            <TopNav movementDirections={movementDirections} container={container} position={position} />
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Me</h1>
             <p className="text-lg md:text-xl max-w-prose text-center mb-5 px-2 md:px-0">
                 Have questions or want to work together? Feel free to reach out!
