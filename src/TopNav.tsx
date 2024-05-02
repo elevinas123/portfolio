@@ -8,6 +8,12 @@ import { useAtom } from "jotai";
 import { posAtom } from "./atoms";
 import { useEffect, useRef } from "react";
 
+declare module "react" {
+    interface CSSProperties {
+        "--tx"?: string;
+        "--ty"?: string;
+    }
+}
 type TopNavProps = {
     container: HTMLDivElement | null;
     movementDirections: Direction[] | null;
