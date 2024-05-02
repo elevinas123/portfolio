@@ -6,7 +6,7 @@ const smoothScrollTo = (container: HTMLDivElement, targetX: number, targetY: num
     const startY = container.scrollTop;
     const distanceX = targetX - startX;
     const distanceY = targetY - startY;
-    const duration = 10; // Duration in milliseconds
+    const duration = 400; // Duration in milliseconds
     let startTime: number | null = null;
 
     const animateScroll = (currentTime: number) => {
@@ -57,20 +57,45 @@ export const scrollToSpecific = (
 ): void => {
     let currentX = container.scrollLeft;
     let currentY = container.scrollTop;
-    for (let i = currentPos+1; i < newPos; i++) {
-        switch (directions[i]) {
-            case "up":
-                currentY -= window.innerHeight;
-                break;
-            case "right":
-                currentX += window.innerWidth;
-                break;
-            case "down":
-                currentY += window.innerHeight;
-                break;
-            case "left":
-                currentX -= window.innerWidth;
+    if (currentPos === newPos) {
+        return
+    }
+    else if (currentPos < newPos) {
+        for (let i = currentPos; i < newPos; i++) {
+            switch (directions[i]) {
+                case "up":
+                    currentY -= window.innerHeight;
+                    break;
+                case "right":
+                    currentX += window.innerWidth;
+                    break;
+                case "down":
+                    currentY += window.innerHeight;
+                    break;
+                case "left":
+                    currentX -= window.innerWidth;
+            }
+        }
+    } else {
+        for (let i = newPos; i < currentPos; i++) {
+            switch (directions[i]) {
+                case "up":
+                    currentY += window.innerHeight;
+                    break;
+                case "right":
+                    currentX -= window.innerWidth;
+                    break;
+                case "down":
+                    currentY -= window.innerHeight;
+                    break;
+                case "left":
+                    currentX += window.innerWidth;
+            }
         }
     }
+    console.log("newX", currentX);
+    console.log("newY", currentY);
+    console.log("currentX", container.scrollLeft);
+    console.log("currentY", container.scrollTop);
     smoothScrollTo(container, currentX, currentY, callback);
 };

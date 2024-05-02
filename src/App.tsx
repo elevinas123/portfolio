@@ -16,6 +16,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         positionRef.current = currentPos
+        console.log("positionReds", currentPos, positionRef.current)
     }, [currentPos])
     const forwardMapping = {
         right: scrollRight,
@@ -104,8 +105,9 @@ const App: React.FC = () => {
     }, [content]);
 
     const scrollSomeWhere = (container: HTMLDivElement | null, direction: Direction, forward: boolean) => {
+        console.log("isSxrolling", !isScrollingRef.current, direction);
         if (container && !isScrollingRef.current && direction) {
-            console.log("posRef", positionRef.current)
+            console.log("posRef", positionRef.current, forward)
             if (positionRef.current === 0 && !forward) return
             if (positionRef.current === movement.current.length && forward) return;
             isScrollingRef.current = true; // Set scrolling flag
@@ -113,7 +115,7 @@ const App: React.FC = () => {
             scrollFunction(container, () => {
                 setCurrentPos((lastPos) => {
                     console.log("lastPos", lastPos)
-                    return forward ? Math.min(lastPos + 1, movement.current.length - 1) : Math.max(lastPos - 1, 0);
+                    return forward ? Math.min(lastPos + 1, movement.current.length) : Math.max(lastPos - 1, 0);
                 });
                 isScrollingRef.current = false; // Reset scrolling flag when done
                 console.log("positionRef", positionRef.current);
@@ -129,9 +131,9 @@ const App: React.FC = () => {
         const handleWheel = (event: WheelEvent) => {
             event.preventDefault(); // Prevent the default scroll behavior
             const isScrollingDown = event.deltaY > 0;
-            let index = positionRef.current
-            const directionKey = movement.current[index % movement.current.length];
-            console.log("lastRef", positionRef.current);
+            let index =  isScrollingDown?positionRef.current:positionRef.current - 1
+            const directionKey = movement.current[index];
+            console.log("lastRef", positionRef.current, isScrollingDown);
             scrollSomeWhere(scrollContainer, directionKey, isScrollingDown);
         };
 
@@ -150,7 +152,7 @@ const App: React.FC = () => {
         event.preventDefault(); // Prevent scrolling the screen
         const touchEndY = event.touches[0].clientY;
         const touchStartY = touchStartYRef.current;
-        const directionKey = movement.current[positionRef.current % movement.current.length];
+        const directionKey = movement.current[positionRef.current];
 
         if (touchEndY < touchStartY) {
             // Swiping up
